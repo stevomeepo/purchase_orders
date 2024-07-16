@@ -1,0 +1,15 @@
+Public IP address: 184.183.140.252
+Open ports: 5001~5011
+
+*Purchase Dept:
+-Purchase Orders to Print: 5001 
+-Receiving Report: 5002
+-Purchase Report: 5003
+-New Product Status: 5004
+-Inventory Description: 5005
+-US_state_Extraction: 5006
+-InvoiceChecking_MTLC: 5007
+-InvoiceChecking_HJ: 5008
+-Enerlites_data_portal: 5009
+-Commission_automation: 5010
+-Competitor_PricingComparision: 5011

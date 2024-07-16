@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Purchase Orders To Print</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        .form-container {
+            margin-top: 50px;
+        }
+        .form-container h1 {
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            font-weight: bold;
+        }
+        .form-container input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .form-container input[type="submit"] {
+            margin-top: 20px;
+        }
+        .return-button {
+            margin-top: 20px; /* Adjust the margin to lower or raise the button */
+        }
+    </style>
+</head>
+<body>
+    <div class="container form-container">
+        <h1>Purchase Orders To Print</h1>
+        <form action="/highlight_pdf" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <p>Please upload Receiving Sheet!&nbsp;&nbsp;Ex. I:\Purchase Dept\Import Container\2023\06-16-2023 40’ UACU5373597 E\UACU5373597</p>
+                <label for="excel_file" class="form-label">Upload Excel File:</label>
+                <input type="file" class="form-control" id="excel_file" name="excel_file" accept=".xlsx">
+            </div>
+            <div class="mb-3">
+                <p>Please upload Purchase Order!&nbsp;&nbsp;Merge all the files before you upload!</p>
+                <label for="pdf_file" class="form-label">Upload PDF File:</label>
+                <input type="file" class="form-control" id="pdf_file" name="pdf_file" accept=".pdf">
+            </div>
+            <div class="mb-3">
+                <label for="highlight_color" class="form-label">Choose Highlight Color:</label>
+                <select name="highlight_color" id="highlight_color" class="form-select">
+                    <option value="(1, 0, 0)">Red</option>
+                    <option value="(0.6, 1, 0.6)">Green</option>
+                    <option value="(0.5, 0.8, 1)">Blue</option>
+                    <option value="(1, 1, 0)">Yellow</option>
+                    <option value="(1, 0.7, 0.4)">Orange</option>
+                    <option value="(1, 0.5, 1)">Purple</option>
+                    <option value="(1, 0.5, 0.5)">Pink</option>
+                    <option value="(0.5, 0.5, 0.5)">Gray</option>
+                    <!-- You can add more color options here -->
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Upload">
+        </form>
+        <div id="output" class="mt-3"></div>
+
+        <!-- Add the return button here -->
+        <div class="return-button">
+            <a href="/">Return</a>
+        </div>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to fetch the output text and update the div
+            function fetchOutputText() {
+                $.ajax({
+                    url: '/get_output_text',
+                    success: function(response) {
+                        var formattedText = response.replace(/\n/g, "<br>");
+                        $('#output').html(formattedText);
+                    }
+                });
+            }
+    
+            // Fetch output text on page load
+            fetchOutputText();
+    
+            // Check if the form was submitted and start fetching the output text
+            $('form').submit(function() {
+                event.preventDefault(); // Prevent the form from submitting normally
+    
+                // Start fetching the output text after a short delay
+                setTimeout(fetchOutputText, 6000);
+    
+                // Submit the form
+                $(this).unbind('submit').submit();
+            });
+        });
+    </script>
+    </body>
+</body>
+</html>
